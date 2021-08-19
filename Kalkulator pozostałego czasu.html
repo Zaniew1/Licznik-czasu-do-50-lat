@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: #555;
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 100vw;
+            height: 100vh;
+        }
+        .wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+        .header__wrapper{
+            text-align: center;
+            height: 10%;
+            width: 100%
+        }
+        .header{
+            font-size: 60px;
+            color: #fff;
+            font-family: 'arial', sans-serif;
+        }
+        .tekst__wrapper{
+            width:100%;
+            height:20%;
+            text-align: center;
+        }
+        .tekst{
+            font-size: 40px;
+            color: #fff;
+            font-family: 'arial', sans-serif;
+        }
+        input{
+            background-color: #333;
+            color: red;
+            width: 250px;
+            padding-left: 10px;
+            margin-left: 40px;
+            height: 40px;
+            font-size: 24px;
+            border: 2px solid #fff;
+            outline: none;
+        }
+        .time {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            width:100%;
+            height: 25%;
+        }
+        .time__list{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: row;
+            width: 100%;
+            list-style-type: none;
+            font-size: 34px;
+            color: turquoise;
+        }
+        button{
+            width: 180px;
+            height:50px;
+            margin-top: 50px;
+            color: #fff;
+            font-size: 24px;
+            background-color: #555;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+            <div class="header__wrapper">
+                <h1 class="header">Chcesz wiedziec za ile skonczysz 50 lat ? </h1>
+            </div>
+            <div class="tekst__wrapper">
+                <p class="tekst">Wpisz swoja date urodzenia: </p>
+            </div>
+            <div class="inputs">
+                <input type="tel" class="input__year" placeholder="Rok Urodzenia" required>      
+                <input type="tel" class="input__month" placeholder="Miesiac Urodzenia" required>      
+                <input type="tel" class="input__day" placeholder="Dzien Urodzenia" required>    
+                <input type="tel" class="input__hour " placeholder="Godzina Urodzenia" required>    
+                <input type="tel" class="input__minute" placeholder="Minuta Urodzenia" required>    
+                <input type="tel" class="input__sec" placeholder="Sekunda Urodzenia" required>    
+                
+            </div>
+            <button class="button" >Zatwierdz</button> 
+            <div class="time">
+                <ul class="time__list">
+                    <li><a class="list__years"><span class="span__years"></span>- Lat pozostalo</a></li>
+                    <li><a class="list__days"><span class="span__days"></span>- Dni pozostalo</a></li>
+                    <li><a class="list__hours"><span class="span__hours"></span>- Godzin pozostalo</a></li>
+                    <li><a class="list__minutes"><span class="span__minutes"></span>- Minut pozostalo</a></li>
+                    <li><a class="list__seconds"><span class="span__seconds"></span>- Sekund pozostalo</a></li>
+                </ul>
+            </div>
+    </div>
+    <script>
+    
+    const inputYear = document.querySelector('.input__year');
+    const inputMonth = document.querySelector('.input__month');
+    const inputDay = document.querySelector('.input__day');
+    const inputHour = document.querySelector('.input__hour');
+    const inputMinutes = document.querySelector('.input__minute');
+    const inputSeconds = document.querySelector('.input__sec');
+
+    const spanYear = document.querySelector('.span__years');
+    const spanDay = document.querySelector('.span__days');
+    const spanHour = document.querySelector('.span__hours');
+    const spanMinutes = document.querySelector('.span__minutes');
+    const spanSeconds = document.querySelector('.span__seconds');
+
+        const calculateTime = function(){
+           
+            const wantTime = new Date(`${Number(inputYear.value) + 50}-
+                ${inputMonth.value > 12 ? alert('Wpisz poprawny miesiac'): inputMonth.value}-
+                ${inputDay.value >= 31 ? alert("Nie ma az tylu dni") : inputDay.value}
+                ${inputHour.value >= 24 ? alert("Dzien ma tylko 24 godziny") : inputHour.value}:
+                ${inputMinutes.value > 60 ? alert("Godzina ma tylko 60 minut") : inputMinutes.value}:${inputSeconds.value > 60 ? alert("Godzina ma tylko 60 minut") : inputSeconds.value}`).getTime();
+
+    
+            setInterval( ()=>{
+            const oldTime = new Date().getTime();
+            
+            let years = Math.floor((wantTime/(1000*60*60*24*365)) - (oldTime/(1000*60*60*24*365)))
+            let days = Math.floor((wantTime/(1000*60*60*24)) - (oldTime/(1000*60*60*24)))%365
+            let hours = Math.floor((wantTime/(1000*60*60)) - (oldTime/(1000*60*60)))%24
+            let minutes = Math.floor((wantTime/(1000*60)) - (oldTime/(1000*60)))%60
+            let seconds = Math.floor((wantTime/(1000)) - (oldTime/(1000)))%60
+
+ 
+            spanYear.textContent = years;
+            spanDay.textContent = days;
+            spanHour.textContent = hours;
+            spanMinutes.textContent = minutes;
+            spanSeconds.textContent = seconds;
+            }, 1000)
+        }
+
+
+
+
+  
+document.querySelector('.button').addEventListener('click', calculateTime)
+    </script>
+</body>
+</html>
